@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Wall Street Ticker + Retro Clock</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Orbitron font for retro digital style -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      color: #00FF00; /* retro green */
+      height: 100%;
+      font-family: 'Orbitron', monospace;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Ticker styling */
+    #ticker {
+      height: 50%;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: black;
+    }
+
+    /* Clock styling */
+    #clock {
+      height: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 12rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* Ensure TradingView ticker is full width */
+    .tradingview-widget-container {
+      width: 100% !important;
+      height: 100% !important;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top half: TradingView Ticker -->
+  <div id="ticker"></div>
+
+  <!-- Bottom half: Retro clock -->
+  <div id="clock">00:00:00</div>
+
+  <!-- TradingView ticker script -->
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async></script>
+  <script type="text/javascript">
+    new TradingView.widget({
+      "container_id": "ticker",
+      "symbols": [
+        { "proName": "FOREXCOM:SPXUSD", "title": "S&P 500" },
+        { "proName": "NASDAQ:AAPL", "title": "AAPL" },
+        { "proName": "NASDAQ:TSLA", "title": "TSLA" },
+        { "description": "VTI", "proName": "AMEX:VTI" },
+        { "description": "SPY", "proName": "AMEX:SPY" }
+      ],
+      "showSymbolLogo": true,
+      "colorTheme": "dark",
+      "isTransparent": false,
+      "displayMode": "adaptive",
+      "locale": "en"
+    });
+  </script>
+
+  <!-- Clock script -->
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock(); // initial call
+  </script>
+</body>
+</html>
