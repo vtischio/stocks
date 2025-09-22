@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Wall Street Ticker + Retro Clock</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <!-- Orbitron font for retro digital style -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
 
@@ -20,16 +20,17 @@
       flex-direction: column;
     }
 
-    /* Ticker styling */
+    /* Top half: ticker strip */
     #ticker {
       height: 50%;
+      background: black;
       display: flex;
       align-items: center;
+      justify-content: center;
       overflow: hidden;
-      background: black;
     }
 
-    /* Clock styling */
+    /* Bottom half: retro clock */
     #clock {
       height: 50%;
       display: flex;
@@ -40,10 +41,11 @@
       letter-spacing: 0.05em;
     }
 
-    /* Ensure TradingView ticker is full width */
+    /* Ensure TradingView widget fills container */
     .tradingview-widget-container {
       width: 100% !important;
       height: 100% !important;
+      background: black !important;
     }
   </style>
 </head>
@@ -88,3 +90,4 @@
   </script>
 </body>
 </html>
+
