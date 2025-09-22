@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Classic Wall Street Ticker + Retro Clock</title>
+<title>Wall Street Ticker + Retro Clock</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- Orbitron font for retro digital style -->
@@ -20,28 +20,19 @@
     flex-direction: column;
   }
 
-  /* Top half: ticker strip */
-  #ticker {
+  /* Top half: ticker */
+  #ticker-container {
     height: 50%;
-    background: black;
     display: flex;
     align-items: center;
+    justify-content: center;
+    background: black;
     overflow: hidden;
-    white-space: nowrap;
   }
 
-  #ticker span {
-    display: inline-block;
-    padding-right: 50px;
-    font-weight: bold;
-    font-size: 2rem;
-    color: #ffffff;
-    animation: scroll 20s linear infinite;
-  }
-
-  @keyframes scroll {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
+  .tradingview-widget-container {
+    width: 100% !important;
+    height: 100% !important;
   }
 
   /* Bottom half: retro clock */
@@ -58,9 +49,37 @@
 </head>
 <body>
 
-<!-- Top half: scrolling ticker -->
-<div id="ticker">
-  <span>S&P 500 4456.23 ▲1.25% &nbsp; AAPL 176.45 ▼0.72% &nbsp; TSLA 260.10 ▲2.15% &nbsp; VTI 224.50 ▲0.98% &nbsp; SPY 451.12 ▼0.34%</span>
+<!-- Top half: TradingView ticker -->
+<div id="ticker-container">
+  <!-- TradingView Widget BEGIN -->
+  <div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <div class="tradingview-widget-copyright">
+      <a href="https://www.tradingview.com/markets/" rel="noopener nofollow" target="_blank">
+        <span class="blue-text">Ticker tape</span>
+      </a>
+      <span class="trademark"> by TradingView</span>
+    </div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+    {
+      "symbols": [
+        { "proName": "AMEX:VTEB", "title": "VTEB" },
+        { "proName": "AMEX:SPY", "title": "SPY" },
+        { "proName": "NASDAQ:TSLA", "title": "" },
+        { "proName": "NASDAQ:AAPL", "title": "" },
+        { "proName": "NASDAQ:MSFT", "title": "" },
+        { "proName": "NASDAQ:META", "title": "" }
+      ],
+      "colorTheme": "dark",
+      "locale": "en",
+      "largeChartUrl": "",
+      "isTransparent": false,
+      "showSymbolLogo": true,
+      "displayMode": "regular"
+    }
+    </script>
+  </div>
+  <!-- TradingView Widget END -->
 </div>
 
 <!-- Bottom half: retro clock -->
@@ -81,5 +100,3 @@
 
 </body>
 </html>
-
-
