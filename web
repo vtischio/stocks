@@ -1,0 +1,72 @@
+import React, { useEffect, useRef, useState } from "react";
+
+// Black background with TradingView ticker on top and a retro digital green clock on bottom
+
+export default function TickerClock() {
+  const widgetRef = useRef(null);
+  const [time, setTime] = useState(new Date());
+
+  useEffect(() => {
+    const t = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(t);
+  }, []);
+
+  useEffect(() => {
+    if (widgetRef.current && !window.TradingView) {
+      const script = document.createElement("script");
+      script.src = "https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js";
+      script.async = true;
+      script.innerHTML = JSON.stringify({
+        symbols: [
+          { proName: "FOREXCOM:SPXUSD", title: "S&P 500" },
+          { proName: "NASDAQ:AAPL", title: "AAPL" },
+          { proName: "NASDAQ:TSLA", title: "TSLA" },
+          { description: "VTI", proName: "AMEX:VTI" },
+          { description: "SPY", proName: "AMEX:SPY" }
+        ],
+        showSymbolLogo: true,
+        colorTheme: "dark",
+        isTransparent: false,
+        displayMode: "adaptive",
+        locale: "en"
+      });
+      widgetRef.current.appendChild(script);
+    }
+  }, []);
+
+  const hours = time.getHours().toString().padStart(2, "0");
+  const mins = time.getMinutes().toString().padStart(2, "0");
+  const secs = time.getSeconds().toString().padStart(2, "0");
+
+  return (
+    <div className="min-h-screen bg-black text-green-500 flex flex-col">
+      {/* Top half: Ticker */}
+      <div className="h-1/2 flex items-start justify-center">
+        <div
+          ref={widgetRef}
+          className="w-full max-w-full"
+          style={{ height: "100%", display: "flex", alignItems: "center" }}
+        >
+          <noscript>
+            <div className="w-full text-center py-6">Enable JavaScript to load the ticker.</div>
+          </noscript>
+        </div>
+      </div>
+
+      {/* Bottom half: Retro alarm clock style */}
+      <div className="h-1/2 flex items-center justify-center">
+        <div className="text-center font-mono">
+          <div className="text-9xl md:text-[12rem] font-bold tracking-widest" style={{ fontFamily: 'Orbitron, monospace' }}>
+            {hours}:{mins}:{secs}
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
+        :root { background: #000; }
+        html, body, #root { height: 100%; background: #000; }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+      `}</style>
+    </div>
+  );
+}
